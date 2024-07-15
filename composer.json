@@ -1,0 +1,21 @@
+{
+    "name": "john/fun",
+    "description": "Objec Oriented PHP playground",
+    "type": "project",
+    "require": {
+        "phpunit/phpunit": "9.*"
+    },
+    "license": "CS",
+    "autoload": {
+        "psr-4": {
+            "John\\Fun\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "john.lessis",
+            "email": "giannis.lessis@csl.gr"
+        }
+    ],
+    "minimum-stability": "dev"
+}
