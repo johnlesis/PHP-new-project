@@ -20,6 +20,16 @@ class Patient  implements  DomainModel
     }
 
     use IdTrait;
+    
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 
     public function getSsn(): Ssn
     {

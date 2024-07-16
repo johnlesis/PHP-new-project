@@ -2,7 +2,7 @@
 
 namespace John\Fun\Application;
 
-class CreatePatientRequest implements ApplicationRequest
+class RegisterPatientRequest implements ApplicationRequest
 {
     private string $name;
     private string $email;

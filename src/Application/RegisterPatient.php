@@ -7,7 +7,7 @@ use John\Fun\Application\ApplicationException;
 use John\Fun\Core\Patient;
 use John\Fun\Core\SsnFactory;
 
-class CreatePatient
+class RegisterPatient
 {
     private SsnFactory $ssnFactory;
     private PatientRepository $patientRepository;
@@ -18,10 +18,10 @@ class CreatePatient
         $this->patientRepository = $patientRepository;
     }
 
-    public function handle(CreatePatientRequest $request): Patient
+    public function handle(RegisterPatientRequest $request): Patient
     {
         // 1. Validate Request
-        $validator = new CreatePatientValidator();
+        $validator = new RegisterPatientRequestValidator();
         
         if(!$validator->validate($request)) {
             throw new ApplicationException($validator->getExceptionMessage());
@@ -39,6 +39,7 @@ class CreatePatient
         $patient = new Patient($request->getName(), $request->getEmail(), $ssn);
 
         // 3. Persist the instance?? -> This is side effect
+        $this->patientRepository->persistNewPatient($patient);
         // 4. Return the validated Patient Object
         return $patient;
     }

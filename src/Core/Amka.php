@@ -16,4 +16,9 @@ class Amka implements Ssn
     {
         return $this->ssnString;
     }
+
+    public function getCountry(): string
+    {
+        return "GR";
+    }
 }

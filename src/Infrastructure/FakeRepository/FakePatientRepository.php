@@ -3,6 +3,7 @@
 namespace John\Fun\Infrastructure\FakeRepository;
 
 use John\Fun\Application\PatientRepository;
+use John\Fun\Core\Patient;
 use John\Fun\Core\Ssn;
 
 class FakePatientRepository implements PatientRepository
@@ -15,5 +16,10 @@ class FakePatientRepository implements PatientRepository
         }
 
         return false;
+    }
+
+    public function persistNewPatient(Patient $patient): bool
+    {
+        return true;
     }
 }

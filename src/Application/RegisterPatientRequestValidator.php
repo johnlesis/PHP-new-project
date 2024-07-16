@@ -4,7 +4,7 @@ namespace John\Fun\Application;
 
 use John\Fun\Application\ApplicationException;
 
-class CreatePatientValidator implements RequestValidator
+class RegisterPatientRequestValidator implements RequestValidator
 {
     private array $errors = [];
 
@@ -12,7 +12,7 @@ class CreatePatientValidator implements RequestValidator
     
     public function validate(ApplicationRequest $request): bool
     {
-        if(!($request instanceof CreatePatientRequest)) {
+        if(!($request instanceof RegisterPatientRequest)) {
             throw new ApplicationException("Invalid Request Type");
         }
 
