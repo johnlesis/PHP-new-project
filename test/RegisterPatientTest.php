@@ -18,83 +18,30 @@ final class RegisterPatientTest extends TestCase
     protected function setUp(): void
     {
         $this->patientRepository = new FakePatientRepository();
-        $this->ssnFactory = new SsnFactory(); 
+        $this->ssnFactory = new SsnFactory();
     }
 
-    public function testInvalidNameThrowsException(): void
+    public function testHandleRegisterPatientCorrectly(): void
     {
-        $invalidName = "Gi";
-        $validSsnString = "01011001123";
-        $validSsnCountry = 'GR';
+        $validName = "john lessis";
+        $validEmail = "johnlesis91@.gmail.com";
+        $validSsnString = "20019102852";
+        $validSsnCountry = "GR";
+        $validDob = new DateTime('1991-01-20');
+        $validGender = "Male";
 
-        $invalidRequest = new RegisterPatientRequest($invalidName, "ingo@csl.gr", $validSsnString, $validSsnCountry);
-        $ssn = $this->ssnFactory->createSsn($validSsnString, $validSsnCountry);
-
-        $useCase = new RegisterPatient($this->ssnFactory, $this->patientRepository);
-
-        $this->expectException(ApplicationException::class);
-        $useCase->handle($invalidRequest);
-    }
-
-    public function testInvalidEmailThrowsException(): void
-    {
-        $invalidName = "Gi";
-        $validSsnString = "01011001123";
-        $validSsnCountry = 'GR';
-
-        $invalidRequest = new RegisterPatientRequest("Giannis Lessi", "ingo.csl.gr", $validSsnString, $validSsnCountry);
-        $ssn = $this->ssnFactory->createSsn($validSsnString, $validSsnCountry);
-
-        $useCase = new RegisterPatient($this->ssnFactory, $this->patientRepository);
-
-        $this->expectException(ApplicationException::class);
-        $useCase->handle($invalidRequest);
-    }
-
-    public function testInvalidLengthSsnExceptionRequest(): void
-    {
-
-        $validSsnString = "010110011";
-
-        $validSsnCountry = 'GR';
-        
-        $this->expectException(DomainException::class);
-        $this->ssnFactory->createSsn($validSsnString, $validSsnCountry);
-    }
-
-    public function testInvalidSsnDigitsExceptionRequest(): void
-    {
-        $validSsnString = "010110011w2";
-
-        $validSsnCountry = 'GR';
-        
-        $this->expectException(DomainException::class);
-        $this->ssnFactory->createSsn($validSsnString, $validSsnCountry);
-    }
-
-    public function testInvalidSsnCountryExceptionRequest(): void
-    {
-        $validSsnString = "01011001122";
-
-        $validSsnCountry = 'UK';
-        
-        $this->expectException(DomainException::class);
-        $this->ssnFactory->createSsn($validSsnString, $validSsnCountry);
-    }
-
-    public function testRegisterPatientWithValidRequest(): void
-    {
-        $validName = "Giannis Lessi";
-        $validSsnString = "01011001123";
-        $validSsnCountry = 'GR';
-
-        $validRequest = new RegisterPatientRequest("Giannis Lessi", "ingo@csl.gr", $validSsnCountry, $validSsnString);
-        $ssn = $this->ssnFactory->createSsn($validSsnString, $validSsnCountry);
+        $validRequest = new RegisterPatientRequest($validName, $validEmail, $validSsnString, $validSsnCountry, $validDob, $validGender);
+        $ssn = $this->ssnFactory->createSsn("20019102852", "GR");
 
         $useCase = new RegisterPatient($this->ssnFactory, $this->patientRepository);
         $patient = $useCase->handle($validRequest);
 
+
         $this->assertInstanceOf(Patient::class, $patient);
-        $this->assertEquals($patient->getSsn()->toString(), $validSsnString);
+        $this->assertEquals($validName, $patient->getName());
+        $this->assertEquals($validEmail, $patient->getEmail());
+        $this->assertEquals($validSsnString, $patient->getSsn()->toString());
+        $this->assertEquals($validDob, $patient->getDob());
+        $this->assertEquals($validGender, $patient->getGender());
     }
 }

@@ -3,7 +3,7 @@
     "description": "Objec Oriented PHP playground",
     "type": "project",
     "require": {
-        "phpunit/phpunit": "9.*"
+        "phpunit/phpunit": "9.6.x-dev"
     },
     "license": "CS",
     "autoload": {
