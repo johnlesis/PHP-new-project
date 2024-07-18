@@ -12,9 +12,11 @@ class Patient implements DomainModel
     private DateTime $dob;
     private Ssn $ssn;
     private string $gender;
+    private array $administeredDrugs = [];
 
     public function __construct(string $name, string $email, Ssn $ssn, Datetime $dob, string $gender)
     {
+        $this->id = new DomainModelId();
         $this->name = $name;
         $this->email = $email;
         $this->ssn = $ssn;
@@ -23,6 +25,15 @@ class Patient implements DomainModel
     }
 
     use IdTrait;
+
+    public function administerDrug(Drug $drug, string $administeredAt): void
+    {
+        $this->administeredDrugs[] = [
+            'drug ' => $drug,
+            'administeredAt ' => $administeredAt
+        ];
+    }
+
 
     public function getName(): string
     {
@@ -49,5 +60,11 @@ class Patient implements DomainModel
     {
         return $this->gender;
     }
+
+    public function getAdministeredDrugs(): array
+    {
+        return $this->administeredDrugs;
+    }
+
 
 }
